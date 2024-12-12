@@ -4,10 +4,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express'; // Si usas Express, por ejemplo
-import { connectDB } from './db'; // Asumimos que tienes el archivo db.js
+import { connectDB } from './db.js'; // Asumimos que tienes el archivo db.js
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 // Conectar a la base de datos
 connectDB();
