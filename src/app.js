@@ -1,24 +1,25 @@
 import express from 'express';
-import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
-import authRoutes from "./routes/auth.routes.js";
-import preguntasRoutes from "./routes/preguntas.routes.js";
-import  cors from "cors";
+import path from 'path';
+import dotenv from 'dotenv';
 
-const app = express()
+dotenv.config();
 
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-}))
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(cookieParser());
+const app = express();
+const port = process.env.PORT || 5000;
 
-app.use("/api", authRoutes);
-app.use("/api", preguntasRoutes);
+// Servir los archivos estáticos del frontend (Foro_Frontend/build)
+app.use(express.static(path.join(__dirname, '../Foro_Frontend/build')));
 
-export default app;
+// Ruta para la API (si tienes una API REST, la configuras aquí)
+app.get('/api', (req, res) => {
+  res.send({ message: 'API funcionando correctamente' });
+});
 
+// Ruta principal que servirá el archivo index.html del frontend
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../Foro_Frontend/build', 'index.html'));
+});
 
- 
+app.listen(port, () => {
+  console.log(`Servidor corriendo en el puerto ${port}`);
+});
